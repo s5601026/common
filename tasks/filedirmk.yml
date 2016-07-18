@@ -1,0 +1,14 @@
+########################################
+## localtime/Timezone
+########################################
+# for CentOS7
+- name: check timezone (CentOS7)
+  shell: timedatectl status | grep "Asia/Tokyo"
+  register: result
+  always_run: yes
+  changed_when: no
+  ignore_errors: yes
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+- name: set timezone Asia/Tokyo (CentOS7)
+  shell: timedatectl set-timezone Asia/Tokyo
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7' and result|failed
